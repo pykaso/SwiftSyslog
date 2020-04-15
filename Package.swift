@@ -25,15 +25,9 @@ let package = Package(
         .target(
             name: "SwiftSyslog",
             dependencies: [
-                "Puree",
                 "CocoaAsyncSocket"
             ],
-            path: "Sources/SwiftSyslog"
-        ),
-        .target(
-            name: "Puree",
-            dependencies: [],
-            path: "Sources/Puree"
+            path: "Sources"
         ),
         .testTarget(
             name: "SwiftSyslogTests",
