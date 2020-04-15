@@ -31,7 +31,7 @@ class TcpDelegate: NSObject, GCDAsyncSocketDelegate {
     }
 }
 
-class Syslogger: BufferedOutput {
+public class Syslogger: BufferedOutput {
     let host: String
     let port: Int
     let useTLS: Bool
@@ -113,7 +113,7 @@ class Syslogger: BufferedOutput {
         emit(log: LogEntry(tag: ".", userData: message.asData()))
     }
 
-    override func write(_ chunk: BufferedOutput.Chunk, completion: @escaping (Bool) -> Void) {
+    public override func write(_ chunk: BufferedOutput.Chunk, completion: @escaping (Bool) -> Void) {
         if tcpSocket == nil {
             let socket = GCDAsyncSocket(delegate: tcpDelegate, delegateQueue: DispatchQueue(label: "logger.tcp.queue", qos: .background))
             tcpSocket = socket
