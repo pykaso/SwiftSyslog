@@ -6,7 +6,6 @@
 //
 import CocoaAsyncSocket
 import UIKit
-import Puree
 
 class TcpDelegate: NSObject, GCDAsyncSocketDelegate {
     #if DEBUG
@@ -74,12 +73,27 @@ class Syslogger: BufferedOutput {
         return UserDefaults.standard.string(forKey: installIDKey) ?? ""
     }
 
-    public required init(logStore: LogStore, host: String, port: Int, useTLS: Bool = false, token: String) {
+    var clientCertificateURL: URL? {
+        didSet {
+            if let url = clientCertificateURL {
+                identity = loadIdentity(url: url)
+            }
+        }
+    }
+
+    var identity: SecIdentity?
+
+    public required init(logStore: LogStore, host: String, port: Int, useTLS: Bool = false, token: String, clientCertificateURL: URL? = nil) {
         self.host = host
         self.port = port
         self.useTLS = useTLS
         self.token = token
+        self.clientCertificateURL = clientCertificateURL
         super.init(logStore: logStore)
+
+        if let url = clientCertificateURL {
+            identity = loadIdentity(url: url)
+        }
     }
 
     func write(_ severity: Rfc5424LogMessage.SyslogSeverity, message: String) {
@@ -109,10 +123,10 @@ class Syslogger: BufferedOutput {
             do {
                 try tcpSocket.connect(toHost: host, onPort: UInt16(port))
                 if useTLS {
-                    let settings: [String: NSObject] = [:]
-//                    if let url = credentialsFileURL {
-//                        settings[kCFStreamSSLCertificates as String] = NSArray(array: [identity])
-//                    ]
+                    var settings: [String: NSObject] = [:]
+                    if let identity = identity {
+                        settings[kCFStreamSSLCertificates as String] = NSArray(array: [identity])
+                    }
                     tcpSocket.startTLS(settings)
                 }
             } catch {
@@ -131,11 +145,7 @@ class Syslogger: BufferedOutput {
         completion(true)
     }
 
-    lazy var identity: SecIdentity = {
-        guard let url = Syslogger.credentialsFileURL else {
-            fatalError("Missing the client cert resource from the bundle")
-        }
-
+    func loadIdentity(url: URL) -> SecIdentity {
         do {
             let p12 = try Data(contentsOf: url) as CFData
             let options = [kSecImportExportPassphrase as String: ""] as CFDictionary
@@ -151,22 +161,7 @@ class Syslogger: BufferedOutput {
 
             return identity
         } catch {
-            fatalError("Could not create server certificate")
+            fatalError("Could not create client certificate")
         }
-    }()
-
-    // Testing only
-    private static var credentialsFileURL: URL? {
-        let fileName = "clientcert"
-        let fileExtension = "p12"
-
-        #if SWIFT_PACKAGE
-            let thisSourceFile = URL(fileURLWithPath: #file)
-            let thisSourceDirectory = thisSourceFile.deletingLastPathComponent()
-            return thisSourceDirectory.appendingPathComponent("\(fileName).\(fileExtension)")
-        #else
-            let bundle = Bundle(for: LogRemoteStore.self)
-            return bundle.url(forResource: fileName, withExtension: fileExtension)
-        #endif
     }
 }

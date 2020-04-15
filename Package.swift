@@ -27,10 +27,12 @@ let package = Package(
             dependencies: [
                 "CocoaAsyncSocket"
             ],
-            path: "Sources"
+            path: "SwiftSyslog"
         ),
         .testTarget(
             name: "SwiftSyslogTests",
-            dependencies: ["SwiftSyslog"]),
+            dependencies: ["SwiftSyslog"],
+            path: "SwiftSyslogTests"
+        ),
     ]
 )
