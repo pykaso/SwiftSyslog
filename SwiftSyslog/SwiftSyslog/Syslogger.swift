@@ -43,29 +43,29 @@ public class Syslogger: BufferedOutput {
     private let token: String
     private let installIDKey = "syslogger.install.id"
 
-    var userInfo: String?
+    public var userInfo: String?
 
-    var deviceInfo: String {
+    public var deviceInfo: String {
         UIDevice.modelName.withoutSpaces
     }
 
-    var version: String {
+    public var version: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
     }
 
-    var buildNumber: String {
+    public var buildNumber: String {
         Bundle.main.infoDictionary?["CFBundleVersion"] as? String ?? "0"
     }
 
-    var bundleID: String {
+    public var bundleID: String {
         Bundle.main.infoDictionary?["CFBundleIdentifier"] as? String ?? ""
     }
 
-    var applicationInfo: String {
+    public var applicationInfo: String {
         "\(bundleID)/\(version).\(buildNumber)"
     }
 
-    var installID: String {
+    public var installID: String {
         if UserDefaults.standard.string(forKey: installIDKey) == nil {
             let uuid = UUID()
             UserDefaults.standard.set(uuid.uuidString, forKey: installIDKey)
@@ -73,7 +73,7 @@ public class Syslogger: BufferedOutput {
         return UserDefaults.standard.string(forKey: installIDKey) ?? ""
     }
 
-    var clientCertificateURL: URL? {
+    public var clientCertificateURL: URL? {
         didSet {
             if let url = clientCertificateURL {
                 identity = loadIdentity(url: url)
@@ -81,7 +81,7 @@ public class Syslogger: BufferedOutput {
         }
     }
 
-    var identity: SecIdentity?
+    public var identity: SecIdentity?
 
     public required init(logStore: LogStore, host: String, port: Int, useTLS: Bool = false, token: String, clientCertificateURL: URL? = nil) {
         self.host = host
@@ -96,7 +96,7 @@ public class Syslogger: BufferedOutput {
         }
     }
 
-    func write(_ severity: Rfc5424LogMessage.SyslogSeverity, message: String) {
+    public func write(_ severity: Rfc5424LogMessage.SyslogSeverity, message: String) {
         var extended: [String: String] = [
             "token": token,
             "device": deviceInfo,
