@@ -1,5 +1,5 @@
 //
-// This file is part of awesome Puree log agregator
+// This file is basen on awesome Puree log agregator
 // https://github.com/cookpad/Puree-Swift
 //
 import Foundation
@@ -53,16 +53,16 @@ struct SystemFileManager: FileManagerProtocol {
 }
 
 public class FileLogStore: LogStore {
-    private static let directoryName = "Logs"
+    private let directoryName: String
     private var bundle: Bundle = Bundle.main
     private var baseDirectoryURL: URL!
 
-    public static let `default` = FileLogStore()
+    public init(directoryName: String = "Logs") {
+        self.directoryName = directoryName
+    }
 
     private func fileURL(for group: String) -> URL {
-        // Tag patterns usually contain '*'. However we don't want to use special characters in filenames
-        // so encode file names to Base16
-        return baseDirectoryURL.appendingPathComponent(encodeToBase16(group))
+        return baseDirectoryURL.appendingPathComponent(group.base16Encoded)
     }
 
     private var fileManager: FileManagerProtocol = SystemFileManager()
@@ -90,7 +90,7 @@ public class FileLogStore: LogStore {
 
     public func prepare() throws {
         let cacheDirectoryURL = try fileManager.cachesDirectoryURL()
-        baseDirectoryURL = cacheDirectoryURL.appendingPathComponent(FileLogStore.directoryName)
+        baseDirectoryURL = cacheDirectoryURL.appendingPathComponent(directoryName)
         try createCachesDirectory()
     }
 
@@ -115,8 +115,10 @@ public class FileLogStore: LogStore {
         try? fileManager.removeDirectory(at: baseDirectoryURL)
         try? createCachesDirectory()
     }
+}
 
-    private func encodeToBase16(_ string: String) -> String {
-        return string.data(using: .utf8)!.map { String(format: "%02hhx", $0) }.joined()
+fileprivate extension String {
+    var base16Encoded: String {
+        data(using: .utf8)!.map { String(format: "%02hhx", $0) }.joined()
     }
 }

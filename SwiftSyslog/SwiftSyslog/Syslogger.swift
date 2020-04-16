@@ -10,25 +10,21 @@ import UIKit
 class TcpDelegate: NSObject, GCDAsyncSocketDelegate {
     #if DEBUG
         func socket(_ sock: GCDAsyncSocket, didConnectTo url: URL) {
-            print("⭐ RemoteLogger didConnectTo \(url)")
+            print("⭐ Syslogger didConnectTo \(url)")
         }
 
         func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
-            print("⭐ RemoteLogger didConnectTo \(host):\(port)")
+            print("⭐ Syslogger didConnectTo \(host):\(port)")
         }
 
         func socketDidSecure(_ sock: GCDAsyncSocket) {
-            print("⭐ RemoteLogger did sucessfully secure the connection.")
+            print("⭐ Syslogger did sucessfully secure the connection.")
         }
 
         func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
-            print("☠️ RemoteLogger didDisconnect with error: \(String(describing: err))")
+            print("☠️ Syslogger didDisconnect with error: \(String(describing: err))")
         }
     #endif
-
-    func socket(_ sock: GCDAsyncSocket, didReceive trust: SecTrust, completionHandler: @escaping (Bool) -> Void) {
-        completionHandler(true) // Trust all the things!!
-    }
 }
 
 public class Syslogger: BufferedOutput {
@@ -38,13 +34,18 @@ public class Syslogger: BufferedOutput {
 
     private var tcpSocket: GCDAsyncSocket!
     private let tcpDelegate: TcpDelegate = TcpDelegate()
-    private let sdkVersion = "0.1"
     private let sdkIdentification = "syslogger-ios"
-    private let token: String
+    private let apiKey: String
     private let installIDKey = "syslogger.install.id"
 
+    private var sdkVersion: String {
+        let bundle = Bundle.init(for: Syslogger.self)
+        let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
+        return "\(version)"
+    }
+    
     public var userInfo: String?
-
+    
     public var deviceInfo: String {
         UIDevice.modelName.withoutSpaces
     }
@@ -81,13 +82,21 @@ public class Syslogger: BufferedOutput {
         }
     }
 
-    public var identity: SecIdentity?
+    private var identity: SecIdentity?
 
-    public required init(logStore: LogStore, host: String, port: Int, useTLS: Bool = false, token: String, clientCertificateURL: URL? = nil) {
+    /// Syslogger framework init
+    ///
+    /// - Parameters:
+    ///     - logStore: Temporary log storage. Logs are store here fist, then will be send to syslog server
+    ///     - host: The syslog server hostname
+    ///     - port: The syslog server port number
+    ///     - useTLS: Connect to the syslog server via TLS secured connection
+    ///     - apiKey: Api key stored on the syslog server
+    public required init(logStore: LogStore, host: String, port: Int, useTLS: Bool = true, apiKey: String, clientCertificateURL: URL? = nil) {
         self.host = host
         self.port = port
         self.useTLS = useTLS
-        self.token = token
+        self.apiKey = apiKey
         self.clientCertificateURL = clientCertificateURL
         super.init(logStore: logStore)
 
@@ -96,9 +105,23 @@ public class Syslogger: BufferedOutput {
         }
     }
 
+    /// Optional syslogger init with default FileLogStore
+    ///
+    /// - Parameters:
+    ///     - logStore: Temporary log storage. Logs are store here fist, then will be send to syslog server
+    ///     - host: The syslog server hostname
+    ///     - port: The syslog server port number
+    ///     - useTLS: Connect to the syslog server via TLS secured connection
+    ///     - apiKey: Api key stored on the syslog server
+    public convenience init(host: String, port: Int, useTLS: Bool = true, apiKey: String, clientCertificateURL: URL? = nil) {
+        let logStore = FileLogStore()
+        try? logStore.prepare()
+        self.init(logStore: logStore, host: host, port: port, apiKey: apiKey, clientCertificateURL: clientCertificateURL)
+    }
+
     public func write(_ severity: Rfc5424LogMessage.SyslogSeverity, message: String) {
         var extended: [String: String] = [
-            "token": token,
+            "token": apiKey,
             "device": deviceInfo,
             "install": installID,
         ]
