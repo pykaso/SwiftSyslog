@@ -116,7 +116,7 @@ public class Syslogger: BufferedOutput {
     public convenience init(host: String, port: Int, useTLS: Bool = true, apiKey: String, clientCertificateURL: URL? = nil) {
         let logStore = FileLogStore()
         try? logStore.prepare()
-        self.init(logStore: logStore, host: host, port: port, apiKey: apiKey, clientCertificateURL: clientCertificateURL)
+        self.init(logStore: logStore, host: host, port: port, useTLS: useTLS, apiKey: apiKey, clientCertificateURL: clientCertificateURL)
     }
 
     public func write(_ severity: Rfc5424LogMessage.SyslogSeverity, message: String) {
