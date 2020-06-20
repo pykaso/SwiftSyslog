@@ -157,10 +157,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 19AF272924479A7C00FB9907 /* Build configuration list for PBXNativeTarget "SwiftSyslog" */;
 			buildPhases = (
-				19AF274B24479CA900FB9907 /* Carthage */,
 				19AF271124479A7C00FB9907 /* Sources */,
 				19AF271224479A7C00FB9907 /* Frameworks */,
-				19AF271324479A7C00FB9907 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -227,13 +225,6 @@
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
-		19AF271324479A7C00FB9907 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		19AF271C24479A7C00FB9907 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -242,30 +233,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		19AF274B24479CA900FB9907 /* Carthage */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 12;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"$(SRCROOT)/Carthage/Build/iOS/CocoaAsyncSocket.framework",
-			);
-			name = Carthage;
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(BUILT_PRODUCTS_DIR)/$(FRAMEWORKS_FOLDER_PATH)/CocoaAsyncSocket.framework",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "# not used in release\n# /usr/local/bin/carthage copy-frameworks\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		19AF271124479A7C00FB9907 /* Sources */ = {
@@ -439,11 +406,7 @@
 				INFOPLIST_FILE = SwiftSyslog/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pykaso.ios.swiftSyslog;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -468,11 +431,7 @@
 				INFOPLIST_FILE = SwiftSyslog/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 10.0;
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@loader_path/Frameworks",
-				);
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
 				PRODUCT_BUNDLE_IDENTIFIER = net.pykaso.ios.swiftSyslog;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
