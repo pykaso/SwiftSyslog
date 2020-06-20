@@ -72,7 +72,6 @@
 				19AF271724479A7C00FB9907 /* SwiftSyslog */,
 				19AF272224479A7C00FB9907 /* SwiftSyslogTests */,
 				19AF271624479A7C00FB9907 /* Products */,
-				19AF274C24479D4500FB9907 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -149,13 +148,6 @@
 				19AF274024479C5D00FB9907 /* DateProvider.swift */,
 			);
 			path = Utilities;
-			sourceTree = "<group>";
-		};
-		19AF274C24479D4500FB9907 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
