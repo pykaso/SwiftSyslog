@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,7 +18,6 @@
 		19AF274824479C5D00FB9907 /* BufferedOutput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF273E24479C5D00FB9907 /* BufferedOutput.swift */; };
 		19AF274924479C5D00FB9907 /* DateProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF274024479C5D00FB9907 /* DateProvider.swift */; };
 		19AF274A24479C5D00FB9907 /* LogEntry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF274124479C5D00FB9907 /* LogEntry.swift */; };
-		19AF274E24479D4500FB9907 /* CocoaAsyncSocket.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19AF274D24479D4500FB9907 /* CocoaAsyncSocket.framework */; platformFilter = ios; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,8 +45,6 @@
 		19AF273E24479C5D00FB9907 /* BufferedOutput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BufferedOutput.swift; sourceTree = "<group>"; };
 		19AF274024479C5D00FB9907 /* DateProvider.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DateProvider.swift; sourceTree = "<group>"; };
 		19AF274124479C5D00FB9907 /* LogEntry.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LogEntry.swift; sourceTree = "<group>"; };
-		19AF274D24479D4500FB9907 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/iOS/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
-		19AF27512447A05E00FB9907 /* CocoaAsyncSocket.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CocoaAsyncSocket.framework; path = Carthage/Build/Mac/CocoaAsyncSocket.framework; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -55,7 +52,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				19AF274E24479D4500FB9907 /* CocoaAsyncSocket.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -158,8 +154,6 @@
 		19AF274C24479D4500FB9907 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				19AF27512447A05E00FB9907 /* CocoaAsyncSocket.framework */,
-				19AF274D24479D4500FB9907 /* CocoaAsyncSocket.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
