@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		1959A64826A05029002F592F /* CocoaAsyncSocket.xcframework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1959A64726A05029002F592F /* CocoaAsyncSocket.xcframework */; };
-		1959A64926A05029002F592F /* CocoaAsyncSocket.xcframework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 1959A64726A05029002F592F /* CocoaAsyncSocket.xcframework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		19AF271F24479A7C00FB9907 /* SwiftSyslog.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 19AF271524479A7C00FB9907 /* SwiftSyslog.framework */; };
 		19AF272424479A7C00FB9907 /* SwiftSyslogTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF272324479A7C00FB9907 /* SwiftSyslogTests.swift */; };
 		19AF274224479C5D00FB9907 /* Syslogger.swift in Sources */ = {isa = PBXBuildFile; fileRef = 19AF273524479C5D00FB9907 /* Syslogger.swift */; };
@@ -31,20 +30,6 @@
 			remoteInfo = SwiftSyslog;
 		};
 /* End PBXContainerItemProxy section */
-
-/* Begin PBXCopyFilesBuildPhase section */
-		1959A64A26A05029002F592F /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-				1959A64926A05029002F592F /* CocoaAsyncSocket.xcframework in Embed Frameworks */,
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		1959A64726A05029002F592F /* CocoaAsyncSocket.xcframework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcframework; name = CocoaAsyncSocket.xcframework; path = Carthage/Build/CocoaAsyncSocket.xcframework; sourceTree = "<group>"; };
@@ -186,7 +171,6 @@
 			buildPhases = (
 				19AF271124479A7C00FB9907 /* Sources */,
 				19AF271224479A7C00FB9907 /* Frameworks */,
-				1959A64A26A05029002F592F /* Embed Frameworks */,
 			);
 			buildRules = (
 			);
@@ -436,7 +420,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pykaso.ios.swiftSyslog;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
@@ -461,7 +445,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				IPHONEOS_DEPLOYMENT_TARGET = 11.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited)";
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = net.pykaso.ios.swiftSyslog;
 				PRODUCT_NAME = "$(TARGET_NAME:c99extidentifier)";
 				SKIP_INSTALL = YES;
