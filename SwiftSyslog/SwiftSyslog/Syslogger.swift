@@ -8,23 +8,31 @@ import CocoaAsyncSocket
 import UIKit
 
 class TcpDelegate: NSObject, GCDAsyncSocketDelegate {
-    #if DEBUG
-        func socket(_ sock: GCDAsyncSocket, didConnectTo url: URL) {
+    var debugMode: Bool = false
+    
+    func socket(_ sock: GCDAsyncSocket, didConnectTo url: URL) {
+        if debugMode {
             print("⭐ Syslogger didConnectTo \(url)")
         }
+    }
 
-        func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+    func socket(_ sock: GCDAsyncSocket, didConnectToHost host: String, port: UInt16) {
+        if debugMode {
             print("⭐ Syslogger didConnectTo \(host):\(port)")
         }
+    }
 
-        func socketDidSecure(_ sock: GCDAsyncSocket) {
+    func socketDidSecure(_ sock: GCDAsyncSocket) {
+        if debugMode {
             print("⭐ Syslogger did sucessfully secure the connection.")
         }
+    }
 
-        func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+    func socketDidDisconnect(_ sock: GCDAsyncSocket, withError err: Error?) {
+        if debugMode {
             print("☠️ Syslogger didDisconnect with error: \(String(describing: err))")
         }
-    #endif
+    }
 }
 
 public class Syslogger: BufferedOutput {
@@ -42,6 +50,12 @@ public class Syslogger: BufferedOutput {
         let bundle = Bundle.init(for: Syslogger.self)
         let version = bundle.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0"
         return "\(version)"
+    }
+    
+    public var debugMode: Bool = false {
+        didSet {
+            tcpDelegate.debugMode = debugMode
+        }
     }
     
     public var userInfo: String?
@@ -153,7 +167,9 @@ public class Syslogger: BufferedOutput {
                     tcpSocket.startTLS(settings)
                 }
             } catch {
-                print("💩 connection to syslog server failed. \(error)")
+                if debugMode {
+                    print("💩 connection to syslog server failed. \(error)")
+                }
                 completion(false)
                 return
             }
